@@ -3,7 +3,7 @@ import Product from "../Modal/product.js";
 import expressAsyncHandler from "express-async-handler";
 
 
-
+// product post
 export const postProductController = expressAsyncHandler(
   async (req, res) => {
     const {name,category,subCategory,description,price,stock,ram,image} = req.body
@@ -35,6 +35,8 @@ export const postProductController = expressAsyncHandler(
   }
 )
 
+// product get
+
 export const getProductController = expressAsyncHandler(async (req, res) => {
   const producttData = await Product.find();
 
@@ -47,7 +49,7 @@ export const getProductController = expressAsyncHandler(async (req, res) => {
     });
 });
 
-
+// get single product get
 export const getProductDetailsController = expressAsyncHandler(async (req, res) => {
 console.log(req.params.id);
   const {id}=req.params
@@ -68,7 +70,7 @@ console.log(req.params.id);
 });
 
 
-
+// product update
 export const updateProductController = expressAsyncHandler(
   async (req, res) => {
     const {name,category,subCategory,description,price,stock,ram,image} = req.body
@@ -97,7 +99,7 @@ export const updateProductController = expressAsyncHandler(
   }
 )
 
-
+// filter product get
 export const filterProductController = expressAsyncHandler(
   async (req, res) => {
     

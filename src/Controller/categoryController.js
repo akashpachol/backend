@@ -2,6 +2,8 @@ import asyncHandler from "express-async-handler";
 import Category from "../Modal/Category.js";
 import SubCategory from "../Modal/subCategory.js";
 
+
+// category post
 export const postCategoryController = asyncHandler(async (req, res) => {
   const { name } = req.body;
 
@@ -18,6 +20,8 @@ export const postCategoryController = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: " category created ", status: "success" });
 });
+
+// category get
 export const getCategoryController = asyncHandler(async (req, res) => {
   const categoryData = await Category.find();
 
@@ -29,6 +33,8 @@ export const getCategoryController = asyncHandler(async (req, res) => {
       data: categoryData,
     });
 });
+
+// sub category post
 export const postSubCategoryController = asyncHandler(async (req, res) => {
   const { name, category } = req.body;
 
@@ -49,6 +55,7 @@ export const postSubCategoryController = asyncHandler(async (req, res) => {
     .json({ message: " sub category created ", status: "success" });
 });
 
+// subcategory get
 
 export const getSubCategoryController = asyncHandler(async (req, res) => {
 

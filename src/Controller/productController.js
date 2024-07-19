@@ -91,12 +91,36 @@ export const updateProductController = expressAsyncHandler(
    
       }
 
-     const data= await Location.findByIdAndUpdate(id, newproduct, { new: true });
+     const data= await Product.findByIdAndUpdate(id, newproduct, { new: true });
   
     res.status(200).json({ message: " product updateed" ,status:"success" });
   }
 )
 
+
+export const filterProductController = expressAsyncHandler(
+  async (req, res) => {
+    
+    const {category,subCategory}=req.query
+let productData;
+if(!category){
+  res.status(404).json({message: "correct the details"})
+
+}
+if(!subCategory){
+  productData = await Product.find({category});
+
+
+}
+let data={subCategory,category}
+
+productData = await Product.find(data);
+
+    
+  
+    res.status(200).json({ message: "filter product" ,status:"success",data:productData });
+  }
+)
 
 
 

@@ -2,7 +2,7 @@
 import asyncHandler from "express-async-handler";
 import bcrypt from 'bcrypt'
 import User from "../Modal/user.js";
-import generateToken from "../utils/genarateToken.js";
+import {generateToken} from "../utils/genarateToken.js";
 
 
 

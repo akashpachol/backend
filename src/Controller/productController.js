@@ -1,33 +1,101 @@
 
-import asyncHandler from "express-async-handler";
-import Product from "../Modal/product";
+import Product from "../Modal/product.js";
+import expressAsyncHandler from "express-async-handler";
 
 
 
-export const postCategoryController = asyncHandler(
+export const postProductController = expressAsyncHandler(
   async (req, res) => {
-    const {name} = req.body
+    const {name,category,subCategory,description,price,stock,ram,image} = req.body
+
+    if(!name||!category||!subCategory||!description||!price||!stock||!ram||!image){
+      res.status(404).json({message: "correct the details"})
+
+    }
     
     const productData = await Product.findOne({name})
 
     if(productData) {
-      res.status(404).json({message: "category already exist"})
+      res.status(404).json({message: "product already exist"})
       return
     }
  
-    const category = await Product.create({
+    const newproduct = await Product.create({
         name,
+        category,
+        subCategory,
+        description,
+        variants:[{price,stock,ram}],
+        image:image.map((data)=>data.url)
+
    
       });
   
-    res.status(200).json({ message: " category created " ,status:"success" });
+    res.status(200).json({ message: " product created " ,status:"success" });
   }
 )
 
+export const getProductController = expressAsyncHandler(async (req, res) => {
+  const producttData = await Product.find();
+
+  res
+    .status(200)
+    .json({
+      message: "get all product",
+      status: "success",
+      data: producttData,
+    });
+});
+
+
+export const getProductDetailsController = expressAsyncHandler(async (req, res) => {
+console.log(req.params.id);
+  const {id}=req.params
+
+  if(!id){
+    res.status(404).json({message: "product is not fount"})
+    return
+  }
+  const producttData = await Product.findById(id).populate('category').populate('subCategory');
+
+  res
+    .status(200)
+    .json({
+      message: "get product details",
+      status: "success",
+      data: producttData,
+    });
+});
 
 
 
+export const updateProductController = expressAsyncHandler(
+  async (req, res) => {
+    const {name,category,subCategory,description,price,stock,ram,image} = req.body
 
+    if(!name||!category||!subCategory||!description||!price||!stock||!ram||!image){
+      res.status(404).json({message: "correct the details"})
+
+    }
+    
+   
+ 
+    const newproduct ={
+        name,
+        category,
+        subCategory,
+        description,
+        variants:[{price,stock,ram}],
+        image:image.map((data)=>data.url)
+
+   
+      }
+
+     const data= await Location.findByIdAndUpdate(id, newproduct, { new: true });
+  
+    res.status(200).json({ message: " product updateed" ,status:"success" });
+  }
+)
 
 
 

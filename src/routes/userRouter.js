@@ -2,7 +2,9 @@ import express from 'express'
 const router = express.Router()
 
 import { loginUserController, userRegisterController} from '../Controller/userController.js'
-import { getCategoryController, postCategoryController, postSubCategoryController } from '../Controller/categoryController.js'
+import { getCategoryController, getSubCategoryController, postCategoryController, postSubCategoryController } from '../Controller/categoryController.js'
+import { getProductController, getProductDetailsController, postProductController, updateProductController } from '../Controller/productController.js'
+import jwtTokenVerification from '../middleware/jwtmiddleware.js'
  
 
 
@@ -10,9 +12,20 @@ import { getCategoryController, postCategoryController, postSubCategoryControlle
 router.post("/register", userRegisterController)
 router.post("/login", loginUserController)
 router.route("/category")
+.all(jwtTokenVerification)
   .get(getCategoryController)
   .post(postCategoryController);
-router.post("/subCategory", postSubCategoryController)
+router.post("/subCategory",jwtTokenVerification, postSubCategoryController)
+router.get("/subCategory/:category",jwtTokenVerification, getSubCategoryController)
+
+router.get("/productDetails/:id",jwtTokenVerification, getProductDetailsController)
+
+
+router.route("/product")
+.all(jwtTokenVerification)
+  .get(getProductController)
+  .post(postProductController)
+  .put(updateProductController)
 
 
 
